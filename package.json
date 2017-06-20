@@ -8,11 +8,12 @@
     "db:create": "createdb vinyl",
     "db:drop": "dropdb vinyl",
     "db:schema": "psql -d vinyl < schema.sql",
-    "db:seed": "psql -d vinyl < albums.sql"
+    "db:seed": "psql -d vinyl < seed.sql"
   },
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
     "ejs": "^2.5.6",
     "express": "^4.15.3",
     "pg": "^6.2.4"
