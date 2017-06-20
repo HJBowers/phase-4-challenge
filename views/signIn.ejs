@@ -2,53 +2,50 @@
 <html>
   <head>
     <title>Vinyl : Sign In</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/style.css">
     <script type="text/javascript" src="/script.js"></script>
   </head>
   <body>
+    <div class="container">
 
-    <h1>Sign In</h1>
+      <ul class="topnav">
+        <li><a class="active" href="/">Vinyl</a></li>
+      </ul>
 
-    <form name="login">
-      Email:<br>
-      <input type="text" name="email" placeholder="email">
-      <br><br>
-      Password:<br>
-      <input type="password" name="password" placeholder="password">
-      <br><br>
-      <input type="submit" value="Submit">
-      <input type="reset" value="Clear"/>
-    </form>
+      <div class="jumbotron text-center ">
+        <h1 ><span></span> Sign In</h1>
+        <form action="/signIn" method="post">
+          <br>
+          <label>Email:   </label>
+          <input type="text" name="email" placeholder="Example@email.com">
+          <br>
+          <label>Password: </label>
+          <input type="text" name="pword" placeholder="Password">
+          <br></br>
+          <input type="submit" value="Login"/>
+          <br><br>
+        </form>
+      </div>
 
-    <script language="javascript">
-      var pass = form.password.value
-      var cookies = document.cookie.split(";");
-
-      for (var i = 0; i < cookies.length; i++) {
-          var cookie = cookies[i];
-          var eqPos = cookie.indexOf("=");
-          var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      <script>
+        function validateForm() {
+          var un = document.loginform.email.value
+          var pw = document.loginform.pword.value
+          var username = users.email
+          var password = users.password
+          if ((un == username) && (pw == password)) {
+              return true;
+              window.location.href = "user.ejs"
+          }
+          else {
+              alert ("Login was unsuccessful, please check your username and password");
+              return false;
+          }
         }
-      }
+      </script>
 
-      var loginCookie = document.cookie
-
-      while (true) {
-        if ( loginCookie != "" ) {
-          console.log("You are already logged in!")
-          break
-        }
-
-        var input = prompt( "Enter password:" )
-
-        if ( input == pass ) {
-          console.log( "correct password!" )
-          window.location.replace("/");
-          loginCookie = document.cookie = "login=true"
-          break
-        }
-      }
-    </script>
+    </div>
   </body>
 </html>

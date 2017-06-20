@@ -1,10 +1,26 @@
 const pg = require('pg')
-
 const dbName = 'vinyl'
 const connectionString = process.env.DATABASE_URL || `postgres://localhost:5432/${dbName}`
 const client = new pg.Client(connectionString)
 
 client.connect()
+
+
+// module.exports = {
+//   development: {
+//     client: 'postgresql',
+//     connection: connectionString,
+//     migrations: {
+//       directory: __dirname + '/config/migrations'
+//     },
+//     seeds: {
+//       directory: __dirname + '/config/seed'
+//     }
+//   }
+// };
+
+
+
 
 // Query helper function
 const query = function(sql, variables, callback){
@@ -33,12 +49,27 @@ const getAlbumsByID = function(albumID, callback) {
 const getUsers = function(callback) {
   query("SELECT * FROM users", [], callback)
 }
+
+const getUserByEmail = function(username, callback) {
+  query("SELECT email FROM users WHERE email = $1", [], callback)
+}
+
 const getUserByID = function(userID, callback) {
   query("SELECT * FROM users WHERE id = $1", [userID], callback)
+}
+
+const createUser = function(name, email, password) {
+
+}
+
+const login = function(name, email, password) {
+
 }
 
 module.exports = {
   getAlbums,
   getAlbumsByID,
-  getUserByID
+  getUserByID,
+  getUserByName,
+  getUsers
 }
