@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vinyl : Sign In</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script type="text/javascript" src="/script.js"></script>
+  </head>
+  <body>
+
+    <h1>Sign In</h1>
+
+    <form name="login">
+      Email:<br>
+      <input type="text" name="email" placeholder="email">
+      <br><br>
+      Password:<br>
+      <input type="password" name="password" placeholder="password">
+      <br><br>
+      <input type="submit" value="Submit">
+      <input type="reset" value="Clear"/>
+    </form>
+
+    <script language="javascript">
+      var pass = form.password.value
+      var cookies = document.cookie.split(";");
+
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i];
+          var eqPos = cookie.indexOf("=");
+          var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+      }
+
+      var loginCookie = document.cookie
+
+      while (true) {
+        if ( loginCookie != "" ) {
+          console.log("You are already logged in!")
+          break
+        }
+
+        var input = prompt( "Enter password:" )
+
+        if ( input == pass ) {
+          console.log( "correct password!" )
+          window.location.replace("/");
+          loginCookie = document.cookie = "login=true"
+          break
+        }
+      }
+    </script>
+  </body>
+</html>

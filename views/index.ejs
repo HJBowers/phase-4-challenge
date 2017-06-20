@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Vinyl</title>
-  <link rel="stylesheet" type="text/css" href="/style.css">
-  <script type="text/javascript" src="/script.js"></script>
-</head>
-<body>
+  <head>
+    <title>Vinyl</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script type="text/javascript" src="/script.js"></script>
+  </head>
+  <body>
+    if(user.id) {
+      <ul class="topnav">
+        <li><a class="active" href="/">Vinyl</a></li>
+        <li class="right"><a href="/signUp">Sign Up</a></li>
+        <li class="right"><a href="/signIn">Sign In</a></li>
+      </ul>
+    }
+    <h2>Records</h2>
 
-  <h1>Vinyl</h1>
 
-  <h2>Records</h2>
+    <div class="album-list">
+      <% albums.forEach(function(album) { %>
+        <div>
+          <h5><a href="/albums/<%= album.id %>"><%= album.title %></a></h5>
+          <span><%= album.artist %></span>
+        </div>
+      <% }) %>
+    </div>
 
-  <div class="album-list">
-    <% albums.forEach(function(album) { %>
-      <div>
-        <h5><a href="/albums/<%= album.id %>"><%= album.title %></a></h5>
-        <span><%= album.artist %></span>
-      </div>
-    <% }) %>
-  </div>
-
-</body>
+  </body>
 </html>
