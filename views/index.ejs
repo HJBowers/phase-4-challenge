@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Vinyl</title>
-  <link rel="stylesheet" type="text/css" href="/style.css">
-  <script type="text/javascript" src="/script.js"></script>
-</head>
-<body>
+  <head>
+    <title>Vinyl</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script type="text/javascript" src="/script.js"></script>
+  </head>
+  <body>
+    <div class="container">
 
-  <h1>Vinyl</h1>
+      <ul class="topnav">
+        <li><a class="active" href="/">Vinyl</a></li>
+        <li class="right"><button class="btn btn-default right"onclick="location.href='/logout'" >Logout</button></li>
+        <li class="right"><button class="btn btn-default right" onclick="location.href='/user'" >Profile</button></li>
+      </ul>
 
-  <h2>Records</h2>
-
-  <div class="album-list">
-    <% albums.forEach(function(album) { %>
-      <div>
-        <h5><a href="/albums/<%= album.id %>"><%= album.title %></a></h5>
-        <span><%= album.artist %></span>
+    <div class="jumbotron text-center">
+      <h2>Records</h2>
+      <div class="album-list">
+        <% albums.forEach(function(album) { %>
+          <div>
+            <h5><a href="/albums/<%= album.id %>"><%= album.title %></a></h5>
+            <span><%= album.artist %></span>
+          </div>
+        <% }) %>
       </div>
-    <% }) %>
-  </div>
+    </div>
 
-</body>
+  </div>
+  </body>
 </html>

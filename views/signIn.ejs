@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vinyl : Sign In</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script type="text/javascript" src="/script.js"></script>
+  </head>
+  <body>
+    <div class="container">
+
+      <ul class="topnav">
+        <li><a class="active" href="/">Vinyl</a></li>
+      </ul>
+
+      <div class="jumbotron text-center ">
+        <h1 ><span></span> Sign In</h1>
+        <form action="/signIn" method="post">
+          <br>
+          <label>Email:   </label>
+          <input type="text" name="email" placeholder="Example@email.com">
+          <br>
+          <label>Password: </label>
+          <input type="text" name="pword" placeholder="Password">
+          <br></br>
+          <input type="submit" value="Login"/>
+          <br><br>
+        </form>
+      </div>
+
+      <script>
+        function validateForm() {
+          var un = document.loginform.email.value
+          var pw = document.loginform.pword.value
+          var username = users.email
+          var password = users.password
+          if ((un == username) && (pw == password)) {
+              return true;
+              window.location.href = "user.ejs"
+          }
+          else {
+              alert ("Login was unsuccessful, please check your username and password");
+              return false;
+          }
+        }
+      </script>
+
+    </div>
+  </body>
+</html>

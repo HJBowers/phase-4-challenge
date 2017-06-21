@@ -1,40 +1,30 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const database = require('./database')
 const app = express()
+const passport = require('passport')
+const flash = require('connect-flash')
+const morgan       = require('morgan')
+const cookieParser = require('cookie-parser')
+const session      = require('express-session')
 
-require('ejs')
-app.set('view engine', 'ejs');
-
+// express
 app.use(express.static('public'))
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(morgan('dev')) // log every request to the console
+app.use(cookieParser()) // read cookies (needed for auth)
+app.use(bodyParser()) // get information from html forms
 
-app.get('/', (request, response) => {
-  database.getAlbums((error, albums) => {
-    if (error) {
-      response.status(500).render('error', { error: error })
-    } else {
-      response.render('index', { albums: albums })
-    }
-  })
-})
+// ejs
+app.set('view engine', 'ejs') // set up ejs for templating
 
-app.get('/albums/:albumID', (request, response) => {
-  const albumID = request.params.albumID
+// passport
+require('./config/passport')(passport) // pass passport for configuration
+app.use(session({ secret: 'iloveMurphy' })) // session secret
+app.use(passport.initialize())
+app.use(passport.session()) // persistent login sessions
+app.use(flash()) // use connect-flash for flash messages stored in session
 
-  database.getAlbumsByID(albumID, (error, albums) => {
-    if (error) {
-      response.status(500).render('error', { error: error })
-    } else {
-      const album = albums[0]
-      response.render('album', { album: album })
-    }
-  })
-})
-
-app.use((request, response) => {
-  response.status(404).render('not_found')
-})
+// routes
+require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
