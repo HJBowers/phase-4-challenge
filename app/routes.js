@@ -1,12 +1,12 @@
 const queries = require('../config/queries')
 
-module.exports = function(app, passport) {
+module.exports = function(app) {
 
-// SPLASH PAGE
-// =====================================
-  app.get('/', function(request, response) {
-    response.render('splash'); // load the index.ejs file
-  })
+  // SPLASH PAGE
+  // =====================================
+    app.get('/', function(request, response) {
+      response.render('splash');
+    })
 
 
   // LOGIN
@@ -15,32 +15,20 @@ module.exports = function(app, passport) {
       response.render('signIn', { message: request.flash('loginMessage') })
     })
 
-    app.post('/signIn',
-      passport.authenticate('local-signIn', {
-        successRedirect: '/user',
-        failureRedirect: '/signIn',
-        failureFlash: true
+    app.post('/signIn', (request, response) => {
+      var email = request.body.email
+      var password = request.body.password
+      queries.getUserByEmail(email, (error, users) => {
+        if (error) {
+          response.status(500).render('error', { error: error })
+        } else {
+          console.log("User object:", users[0])
+          if(users[0].localpassword = password) {
+            response.redirect('user')
+          }
+        }
       })
-    );
-
-    // app.post('/login', (req, res, next) => {
-    //   passport.authenticate('local', (err, user, info) => {
-    //     if (err) { handleResponse(res, 500, 'error') }
-    //     if (!user) { handleResponse(res, 404, 'User not found') }
-    //     if (user) {
-    //       req.logIn(user, function (err) {
-    //         if (err) { handleResponse(res, 500, 'error') }
-    //         handleResponse(res, 200, 'success')
-    //       })
-    //     }
-    //   })(req, res, next)
-    // })
-
-    // app.post('/signIn', passport.authenticate('local', { failureRedirect: '/login' }),
-    //   (request, response) => {
-    //     response.redirect('user', { user: user })
-    //   }
-    // )
+    });
 
 
   // SIGNUP
@@ -49,36 +37,15 @@ module.exports = function(app, passport) {
           response.render('signUp', { message: request.flash('signUpMessage') })
     })
 
-    app.post('/signUp',
-      passport.authenticate('local-signup', {
-        successRedirect : '/user',
-        failureRedirect : '/signUp',
-        failureFlash : true
+    app.post('/signUp', (request, response) => {
+      queries.createUser(request.body.name, request.body.email, request.body.password, (error, albums) => {
+        if (error) {
+          response.status(500).render('error', { error: error })
+        } else {
+          response.redirect('/user')
+        }
       })
-    )
-
-
-    // function handleResponse(res, code, statusMsg) {
-    //   res.status(code).json({status: statusMsg})
-    // }
-    //
-    // app.post('/signUp', (req, res, next)  => {
-    //   return createUser(req, res)
-    //   .then((response) => {
-    //     passport.authenticate('local', (err, user, info) => {
-    //       if (user) { handleResponse(res, 200, 'success') }
-    //     })(req, res, next)
-    //   })
-    //   .catch((err) => { handleResponse(res, 500, 'error') })
-    // })
-
-
-    // app.post('/signUp', (request, response) => {
-    //   createUser(request.body.name, request.body.email, request.body.password)
-    //   .then(
-    //     response.redirect('user', { user: user })
-    //   )
-    // })
+    })
 
 
 // HOME PAGE
@@ -111,8 +78,7 @@ module.exports = function(app, passport) {
 
 // PROFILE
 // =====================================
-  // get the user out of session and pass to template
-  app.get('/user', isLoggedIn, (request, response) => {
+  app.get('/user', (request, response) => {
     response.render('user', { user : request.user })
   })
 
@@ -127,12 +93,12 @@ module.exports = function(app, passport) {
   //     }
   //   })
   // })
-
-  function isLoggedIn(request, response, next) {
-    if (request.isAuthenticated())
-      return next()
-    response.redirect('/user')
-  }
+  //
+  // function isLoggedIn(request, response, next) {
+  //   if (request.isAuthenticated())
+  //     return next()
+  //   response.redirect('/user')
+  // }
 
 // LOGOUT
 // =====================================
