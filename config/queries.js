@@ -29,6 +29,14 @@ const getAlbumsByID = function(albumID, callback) {
   query("SELECT * FROM albums WHERE id = $1", [albumID], callback)
 }
 
+const getReviewsByID = function(reviewID, callback) {
+  query("SELECT * FROM reviews WHERE id = $1", [reviewID], callback)
+}
+
+const createReview = function(album_id, user_id, review, callback) {
+  query("INSERT INTO reviews (album_id, user_id, review) VALUES ($1, $2, $3)", [album_id, user_id, review], callback)
+}
+
 const getUserByEmail = function(email, callback) {
   query("SELECT * FROM users WHERE localemail = $1", [email], callback)
 }

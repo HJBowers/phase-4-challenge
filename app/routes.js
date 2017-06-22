@@ -22,13 +22,13 @@ module.exports = function(app) {
         if (error) {
           response.status(500).render('error', { error: error })
         } else {
-          console.log("User object:", users[0])
-          if(users[0].localpassword = password) {
-            response.redirect('user')
+          var user = users[0]
+          if(user.localpassword == password) {
+            response.render('user', {user: user})
           }
         }
       })
-    });
+    })
 
 
   // SIGNUP
@@ -112,13 +112,13 @@ module.exports = function(app) {
 // REVIEWS
 // =====================================
   app.get('/review/:albumID', (request, response) => {
-    const albumID = request.params.albumID
-    queries.getAlbumsByID(albumID, (error, albums) => {
+    const reviewID = request.params.reviewID
+    queries.getReviewsByID(reviewID, (error, reviews) => {
       if (error) {
         response.status(500).render('error', { error: error })
       } else {
-        const album = albums[0]
-        response.render('review', { album: album })
+        const review = reviews[0]
+        response.render('review', { review: review })
       }
     })
   })
